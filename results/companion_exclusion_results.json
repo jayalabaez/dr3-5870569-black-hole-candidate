@@ -1,0 +1,24 @@
+{
+  "M1": 1.04,
+  "M2_true": 12.55,
+  "L_primary": 30.0,
+  "Teff_primary": 4832,
+  "L_companion_hyp": 17057.0,
+  "Teff_companion_hyp": 24435.0,
+  "R_companion_hyp": 7.29,
+  "bolometric_ratio": 568.6,
+  "band_flux_ratios": {
+    "G": 42851.91,
+    "BP": 88746.05,
+    "RP": 22637.79,
+    "J": 9439.29,
+    "H": 6683.38,
+    "Ks": 5387.51,
+    "W1": 4235.82,
+    "W2": 3789.39
+  },
+  "max_hidden_mass_Msun": 0.92,
+  "detection_threshold": 0.05,
+  "verdict": "LUMINOUS COMPANION FIRMLY EXCLUDED",
+  "note": "M2 = 12.55 Msun MS companion would be a late-B type star dominating the SED.  The observed single K-giant profile firmly excludes this."
+}

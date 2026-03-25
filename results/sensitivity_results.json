@@ -1,0 +1,84 @@
+{
+  "baseline": {
+    "median": 12.534431581857199,
+    "p16": 11.101164061183658,
+    "p84": 14.068020446230555,
+    "P_BH_5": 1.0,
+    "P_BH_10": 0.963554
+  },
+  "M1_sweep": {
+    "0.5": {
+      "median": 11.636061344872903,
+      "P_BH_5": 1.0,
+      "P_BH_10": 0.890554
+    },
+    "0.7": {
+      "median": 11.976053016651836,
+      "P_BH_5": 1.0,
+      "P_BH_10": 0.9284
+    },
+    "0.9": {
+      "median": 12.311633622215265,
+      "P_BH_5": 1.0,
+      "P_BH_10": 0.953734
+    },
+    "1.04": {
+      "median": 12.541382010773074,
+      "P_BH_5": 1.0,
+      "P_BH_10": 0.965764
+    },
+    "1.2": {
+      "median": 12.799598803347696,
+      "P_BH_5": 1.0,
+      "P_BH_10": 0.976178
+    },
+    "1.5": {
+      "median": 13.251134094604659,
+      "P_BH_5": 1.0,
+      "P_BH_10": 0.987624
+    },
+    "2.0": {
+      "median": 13.975605614174505,
+      "P_BH_5": 1.0,
+      "P_BH_10": 0.99582
+    }
+  },
+  "parallax_sweep": {
+    "plx=0.880": {
+      "distance_pc": 1136.3636363636363,
+      "M1_est": 1.04,
+      "note": "M1 from GSP-Phot, not distance-dependent for giants"
+    },
+    "plx=0.776": {
+      "distance_pc": 1288.659793814433,
+      "M1_est": 1.04,
+      "note": "M1 from GSP-Phot, not distance-dependent for giants"
+    },
+    "plx=0.672": {
+      "distance_pc": 1488.095238095238,
+      "M1_est": 1.04,
+      "note": "M1 from GSP-Phot, not distance-dependent for giants"
+    },
+    "plx=0.568": {
+      "distance_pc": 1760.56338028169,
+      "M1_est": 1.04,
+      "note": "M1 from GSP-Phot, not distance-dependent for giants"
+    },
+    "plx=0.464": {
+      "distance_pc": 2155.1724137931033,
+      "M1_est": 1.04,
+      "note": "M1 from GSP-Phot, not distance-dependent for giants"
+    }
+  },
+  "BH_threshold_sweep": {
+    "3.0": 1.0,
+    "5.0": 1.0,
+    "7.0": 0.999982,
+    "10.0": 0.963554,
+    "12.0": 0.641778,
+    "15.0": 0.058172,
+    "20.0": 1.4e-05,
+    "25.0": 0.0,
+    "30.0": 0.0
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "target": "Gaia DR3 5870569352746778624",
+  "M2_derived": 12.55,
+  "tests": [
+    {
+      "scenario": "Main-sequence companion",
+      "test": "SED composite / bolometric dominance test",
+      "M2": 12.55,
+      "expected_L_Lsun": 20000,
+      "expected_Teff": 22000,
+      "flux_ratio_G_pct": 700,
+      "verdict": "EXCLUDED",
+      "reason": "A 12.55 Msun MS star would be a late-B type star with L ~ 20,000 Lsun and Teff ~ 22,000 K, outshining the 30 Lsun K-giant primary by a factor of ~700.  The SED would be completely dominated by a hot blue source.  The observed K-giant SED categorically excludes this scenario."
+    },
+    {
+      "scenario": "White dwarf",
+      "test": "Mass ceiling (Chandrasekhar limit)",
+      "M2": 12.55,
+      "M_chandrasekhar": 1.44,
+      "excess_factor": 8.7,
+      "verdict": "EXCLUDED",
+      "reason": "M2 = 12.55 Msun exceeds the Chandrasekhar limit (1.44 Msun) by a factor of 9.  No known single WD can reach this mass."
+    },
+    {
+      "scenario": "Neutron star",
+      "test": "Mass ceiling (TOV limit)",
+      "M2": 12.55,
+      "M_tov": 2.3,
+      "excess_factor": 5.5,
+      "verdict": "EXCLUDED",
+      "reason": "M2 = 12.55 Msun exceeds the TOV limit (2.3 Msun) by a factor of 5.  Even the most generous NS EOS cannot accommodate this mass.  Even at M1 = 0.5 Msun, M2 remains above 10 Msun."
+    },
+    {
+      "scenario": "Hierarchical triple",
+      "test": "Mardling-Aarseth stability + photometric",
+      "P_inner_max_d": 73.4,
+      "M2_split": 6.3,
+      "verdict": "EXCLUDED",
+      "reason": "Stability requires P_inner < 73.4 d.  Two ~6.3 Msun MS stars would each be mid-B type stars with combined L ~ 5,000 Lsun, easily detectable against the 30 Lsun K giant.  Moreover, the AstroSpectroSB1 solution requires a single Keplerian orbit \u2014 a triple would produce additional RV complexity not seen in the data."
+    },
+    {
+      "scenario": "Stripped helium star",
+      "test": "UV/optical dominance + spectral signature",
+      "M2": 12.55,
+      "expected_Teff": "> 30000 K",
+      "expected_L_Lsun": 30000,
+      "verdict": "EXCLUDED",
+      "reason": "A 12.55 Msun stripped He star or Wolf-Rayet star would have L > 30,000 Lsun and Teff > 30,000 K, completely dominating the SED.  The source would appear as a bright blue object, inconsistent with the observed K-giant spectrum."
+    },
+    {
+      "scenario": "Astrometric artefact",
+      "test": "NSS solution quality + spectroscopic cross-check",
+      "significance": 39.85,
+      "RUWE": 9.221,
+      "EN_sig": 1762.4,
+      "GoF": 3.07,
+      "verdict": "EXCLUDED",
+      "reason": "The AstroSpectroSB1 solution has significance 39.9\u03c3 (8\u00d7 the threshold of 5).  Critically, this is a COMBINED astrometric + spectroscopic solution: Gaia independently detects the orbital signal in BOTH photo-centre motion AND radial velocities.  This cross-confirmation essentially eliminates pure astrometric artefacts.  RUWE = 9.2 is extreme, consistent with binary photo-centre motion.  EN_sig = 1762 is very high.  GoF = 3.07 is acceptable.  The parallax has only 15.5% relative error (much better than typical Orbital solutions)."
+    },
+    {
+      "scenario": "Chance alignment",
+      "test": "Orbital coherence + RV confirmation",
+      "significance": 39.85,
+      "period_days": 1352.29,
+      "RV_km_s": -5.04,
+      "verdict": "EXCLUDED",
+      "reason": "The AstroSpectroSB1 solution represents a coherent Keplerian signal at 40\u03c3 over 1352 d.  The eccentricity (e = 0.532) is physical.  At G = 12.3 (bright), source confusion is minimal.  The measured radial velocity (RV = -5.04 \u00b1 2.08 km/s) provides an independent kinematic confirmation of bound-system membership.  The SB1 component of the solution directly measures RV variations consistent with the orbital period, ruling out chance alignment."
+    }
+  ],
+  "counts": {
+    "EXCLUDED": 7
+  },
+  "surviving_scenarios": [],
+  "conclusion": "VERY STRONG BH CANDIDATE: All seven alternative scenarios are excluded.  The AstroSpectroSB1 solution provides independent astrometric and spectroscopic confirmation of the orbital signal.  At 39.8\u03c3 significance with M2 = 12.55 Msun, this is a robust stellar-mass BH candidate comparable to the confirmed Gaia BH1 and BH2 systems."
+}

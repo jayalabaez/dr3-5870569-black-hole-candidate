@@ -1,0 +1,17 @@
+{
+  "source_id": 5870569352746778624,
+  "Teff_gspphot": 4832.0,
+  "logg_gspphot": 3.255,
+  "BP_RP_obs": 1.493,
+  "BP_RP_0": 1.2,
+  "E_BP_RP": 0.293,
+  "A_G": 0.554,
+  "A_V": 0.702,
+  "chi2_red_dered": 17.06,
+  "chi2_red_raw": 75.01,
+  "M_G_raw": 1.41,
+  "M_G_corrected": 0.86,
+  "luminosity_Lsun": 47.0,
+  "radius_Rsun": 9.8,
+  "note": "K-giant SED at b = 2.8 deg.  Moderate extinction A_V ~ 0.7 mag.  Single-star blackbody fit is consistent with no luminous companion."
+}

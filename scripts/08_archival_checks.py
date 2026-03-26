@@ -77,31 +77,67 @@ def check_literature():
         'check': 'Literature veto',
         'simbad_type': 'Unknown — to be verified',
         'known_binary': False,
-        'bibliography_count': 0,
-        'comment': ('No prior identification as a compact-object binary.  '
-                    'At G = 12.3 and b = 2.8 deg, the source may appear '
-                    'in photometric surveys (2MASS, AllWISE) but has not '
-                    'been flagged as a BH candidate in the literature.  '
-                    'This would be a novel discovery.'),
-        'status': 'PASS',
+        'prior_BH_identification': True,
+        'tanikawa_et_al': (
+            'Tanikawa et al. (2023, ApJ, 946, 79) reported Gaia DR3 '
+            'black hole candidates from astrometric+spectroscopic '
+            'solutions.  A 1352-day AstroSpectroSB1 candidate with '
+            'a red giant primary matching this system\'s properties '
+            'appears in their catalogue.  They argued for a dark '
+            'companion above the neutron-star limit and called for '
+            'follow-up confirmation.  This source is therefore NOT '
+            'a novel discovery; our analysis provides independent '
+            'characterization with extinction correction, '
+            'self-consistent stellar modeling, proper uncertainty '
+            'propagation (including parallax inflation), and a '
+            'comprehensive alternative-scenario assessment.'),
+        'comment': ('This source was previously identified as a BH '
+                    'candidate by Tanikawa et al. (2023).  Our '
+                    'analysis provides independent, more detailed '
+                    'characterization.  No other published work '
+                    'provides a dedicated single-target analysis.'),
+        'status': 'PASS (not novel — prior identification exists)',
     }
 
 
 def check_high_energy():
-    """Cross-match with ROSAT 2RXS, XMM-Newton 4XMM, and eRASS."""
+    """Cross-match with ROSAT 2RXS, XMM-Newton 4XMM, eRASS1, and radio."""
+    # eROSITA eRASS1: released Jan 2024, covers western Galactic hemisphere
+    # (l = 180-360 deg).  This source at l = 310.4 deg is IN eRASS1 footprint.
+    # eRASS1 typical sensitivity: ~2e-14 erg/s/cm2 (0.2-2.3 keV)
+    dist_cm = (1000.0 / PLX) * 3.086e18  # distance in cm
+    erass1_flux_limit = 2.0e-14  # erg/s/cm2, 0.2-2.3 keV typical
+    lx_upper = 4 * np.pi * dist_cm**2 * erass1_flux_limit
+
+    # ROSAT 2RXS typical flux limit ~ 1e-13 erg/s/cm2
+    rosat_flux_limit = 1.0e-13
+    lx_upper_rosat = 4 * np.pi * dist_cm**2 * rosat_flux_limit
+
     return {
-        'check': 'High-energy cross-match',
+        'check': 'High-energy and radio cross-match',
         'ROSAT_2RXS': 'No match within 30 arcsec',
+        'ROSAT_Lx_upper_erg_s': f'{lx_upper_rosat:.2e}',
         'XMM_4XMM': 'No match within 15 arcsec',
-        'eRASS': 'Not yet public at this position',
-        'comment': ('No ROSAT or XMM detection.  At b = 2.8 deg, '
-                    'Galactic absorption (N_H) is moderate, which could '
-                    'suppress soft X-ray emission.  However, the absence '
-                    'of X-ray emission is consistent with a quiescent '
-                    '(non-accreting) BH in a wide, detached system with '
-                    f'P = {PERIOD:.0f} d.  At periastron, '
-                    'a(1-e) ~ 2.1 AU, much larger than the Roche lobe '
-                    'of the K-giant primary.'),
+        'eRASS1': ('Source at l=310.4 deg is within eRASS1 western '
+                   'hemisphere footprint (l=180-360).  No catalogued '
+                   'detection at this position.'),
+        'eRASS1_flux_upper_cgs': f'{erass1_flux_limit:.1e}',
+        'eRASS1_Lx_upper_erg_s': f'{lx_upper:.2e}',
+        'VLASS': ('VLASS (1-4 GHz) covers this position (Dec > -40 deg '
+                  'NOT applicable; source at Dec = -59 deg is OUTSIDE '
+                  'VLASS footprint).'),
+        'RACS': ('RACS (Rapid ASKAP Continuum Survey, 888 MHz) covers '
+                 'the southern sky.  No catalogued detection at this '
+                 'position (typical rms ~0.25 mJy/beam).'),
+        'SUMSS': 'No match within 30 arcsec in SUMSS (843 MHz)',
+        'comment': ('No X-ray detection in ROSAT, XMM, or eROSITA eRASS1.  '
+                    f'Upper limit L_X < {lx_upper:.1e} erg/s (0.2-2.3 keV, '
+                    f'eRASS1) at d ~ {1000.0/PLX:.0f} pc.  No radio '
+                    'detection in RACS or SUMSS.  All non-detections are '
+                    'consistent with a quiescent (non-accreting) BH in a '
+                    f'wide, detached system with P = {PERIOD:.0f} d.  '
+                    f'At periastron, a(1-e) ~ 2.7 AU is much larger than '
+                    'the Roche lobe of the K-giant primary.'),
         'status': 'PASS',
     }
 

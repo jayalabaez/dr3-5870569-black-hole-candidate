@@ -11,7 +11,10 @@
   "chi2_red_raw": 75.01,
   "M_G_raw": 1.41,
   "M_G_corrected": 0.86,
-  "luminosity_Lsun": 47.0,
-  "radius_Rsun": 9.8,
+  "luminosity_Lsun_photometric": 47.0,
+  "radius_Rsun_photometric": 9.8,
+  "luminosity_Lsun_logg": 7.7,
+  "radius_Rsun_logg": 4.0,
+  "self_consistency_note": "R from logg+M1 = 4.0 Rsun vs R from distance+extinction = 9.8 Rsun.  Discrepancy of factor 2.5x.  GSP-Phot logg is unreliable for RUWE = 9.22 binaries.",
   "note": "K-giant SED at b = 2.8 deg.  Moderate extinction A_V ~ 0.7 mag.  Single-star blackbody fit is consistent with no luminous companion."
 }

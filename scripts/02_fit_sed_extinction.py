@@ -188,16 +188,38 @@ def main():
     print(f'\n  M_G (raw)       = {mg_raw:.2f}')
     print(f'  M_G (corrected) = {mg_corr:.2f}')
 
-    # Luminosity
+    # Luminosity from photometry
     bc_k2 = -0.30  # bolometric correction for K2-K3 III
     mbol = mg_corr + bc_k2
     lum = 10**((4.74 - mbol) / 2.5)
-    print(f'  L (Lsun)        = {lum:.1f}')
+    print(f'  L (photometric) = {lum:.1f} Lsun')
 
-    # Radius
-    R = np.sqrt(lum * Lsun_cgs / (4 * np.pi * sigma_sb *
+    # Radius from luminosity + Teff
+    R_phot = np.sqrt(lum * Lsun_cgs / (4 * np.pi * sigma_sb *
                                     TEFF_COLOUR**4)) / Rsun_cm
-    print(f'  R (Rsun)        = {R:.1f}')
+    print(f'  R (photometric) = {R_phot:.1f} Rsun')
+
+    # --- Self-consistency check: R from logg + M1 ---
+    # R = sqrt(G * M1 / g)  where g = 10^logg in cgs
+    # logg_sun = 4.437
+    M1_adopted = 1.04  # Msun
+    R_logg = np.sqrt(M1_adopted / 10**(LOGG_GSPPHOT - 4.437))  # in Rsun
+    L_logg = (R_logg / 1.0)**2 * (TEFF_COLOUR / 5778.0)**4  # in Lsun
+
+    print(f'\n  === Self-consistency check ===')
+    print(f'    From logg ({LOGG_GSPPHOT}) + M1 ({M1_adopted} Msun):')
+    print(f'      R_logg = {R_logg:.1f} Rsun')
+    print(f'      L_logg = {L_logg:.1f} Lsun')
+    print(f'    From distance + extinction:')
+    print(f'      R_phot = {R_phot:.1f} Rsun')
+    print(f'      L_phot = {lum:.1f} Lsun')
+    print(f'    DISCREPANCY: factor {R_phot/R_logg:.1f}x in R, '
+          f'{lum/L_logg:.1f}x in L')
+    print(f'    CAVEAT: GSP-Phot logg is unreliable for binaries')
+    print(f'      with RUWE = 9.22.  The pipeline assumes single')
+    print(f'      non-variable stars.  True logg may differ.')
+    print(f'    Adopting range: L = {L_logg:.0f}-{lum:.0f} Lsun, '
+          f'R = {R_logg:.0f}-{R_phot:.0f} Rsun')
 
     basedir = os.path.dirname(__file__)
     figdir = os.path.join(basedir, '..', 'paper', 'figures')
@@ -219,8 +241,15 @@ def main():
         'chi2_red_raw': round(chi2_raw, 2),
         'M_G_raw': round(mg_raw, 2),
         'M_G_corrected': round(mg_corr, 2),
-        'luminosity_Lsun': round(lum, 1),
-        'radius_Rsun': round(R, 1),
+        'luminosity_Lsun_photometric': round(lum, 1),
+        'radius_Rsun_photometric': round(R_phot, 1),
+        'luminosity_Lsun_logg': round(L_logg, 1),
+        'radius_Rsun_logg': round(R_logg, 1),
+        'self_consistency_note': (
+            f'R from logg+M1 = {R_logg:.1f} Rsun vs R from '
+            f'distance+extinction = {R_phot:.1f} Rsun.  Discrepancy '
+            f'of factor {R_phot/R_logg:.1f}x.  GSP-Phot logg is '
+            f'unreliable for RUWE = 9.22 binaries.'),
         'note': ('K-giant SED at b = 2.8 deg.  Moderate extinction '
                  'A_V ~ 0.7 mag.  Single-star blackbody fit is '
                  'consistent with no luminous companion.'),

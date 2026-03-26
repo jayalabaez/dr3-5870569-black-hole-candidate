@@ -1,24 +1,41 @@
 {
   "M1": 1.04,
   "M2_true": 12.55,
-  "L_primary": 30.0,
+  "R_primary_phot": 9.8,
+  "R_primary_logg": 4.0,
+  "L_primary_phot": 47.0,
+  "L_primary_logg": 7.7,
   "Teff_primary": 4832,
+  "R_primary_used": 9.8,
+  "L_primary_used": 47.0,
   "L_companion_hyp": 17057.0,
   "Teff_companion_hyp": 24435.0,
   "R_companion_hyp": 7.29,
-  "bolometric_ratio": 568.6,
-  "band_flux_ratios": {
-    "G": 42851.91,
-    "BP": 88746.05,
-    "RP": 22637.79,
-    "J": 9439.29,
-    "H": 6683.38,
-    "Ks": 5387.51,
-    "W1": 4235.82,
-    "W2": 3789.39
+  "bolometric_ratio": 362.9,
+  "radius_ratio_squared": 0.553,
+  "band_flux_ratios_photR": {
+    "G": 41.7,
+    "BP": 86.3,
+    "RP": 22.0,
+    "J": 9.2,
+    "H": 6.5,
+    "Ks": 5.2,
+    "W1": 4.1,
+    "W2": 3.7
   },
-  "max_hidden_mass_Msun": 0.92,
+  "band_flux_ratios_loggR": {
+    "G": 253.1,
+    "BP": 524.3,
+    "RP": 133.7,
+    "J": 55.8,
+    "H": 39.5,
+    "Ks": 31.8,
+    "W1": 25.0,
+    "W2": 22.4
+  },
+  "max_hidden_mass_Msun": 1.13,
+  "max_hidden_mass_logg_Msun": 0.79,
   "detection_threshold": 0.05,
   "verdict": "LUMINOUS COMPANION FIRMLY EXCLUDED",
-  "note": "M2 = 12.55 Msun MS companion would be a late-B type star dominating the SED.  The observed single K-giant profile firmly excludes this."
+  "note": "Flux ratio = (R_comp/R_prim)^2 * B_nu_ratio. Both R_prim estimates (logg-based and photometric) give overwhelming companion detection.  Companion firmly excluded in either case."
 }

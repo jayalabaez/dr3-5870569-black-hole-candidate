@@ -9,21 +9,35 @@
   "period_d": 1352.29,
   "eccentricity": 0.532,
   "MC_draws": 500000,
-  "MC_valid": 500000,
+  "MC_valid": 499985,
   "M2_median": 12.5,
   "M2_68ci": [
-    11.1,
-    14.1
+    8.5,
+    19.8
   ],
   "M2_90ci": [
-    10.2,
-    15.1
+    6.8,
+    28.4
   ],
-  "P_above_5Msun_percent": 100.0,
+  "P_above_5Msun_percent": 99.6,
   "P_above_NS_percent": 100.0,
   "P_above_3Msun_percent": 100.0,
-  "P_above_10Msun_percent": 96.4,
-  "P_above_33Msun_percent": 0.0,
-  "P_mass_gap_percent": 0.0,
-  "semi_major_axis_AU": 5.71
+  "P_above_10Msun_percent": 71.4,
+  "P_above_33Msun_percent": 2.9,
+  "P_mass_gap_percent": 0.4,
+  "semi_major_axis_AU": 5.71,
+  "parallax_inflation_factor": 1.5,
+  "plx_err_inflated_mas": 0.156,
+  "M2_median_inflated": 12.5,
+  "M2_68ci_inflated": [
+    7.3,
+    25.6
+  ],
+  "M2_90ci_inflated": [
+    5.5,
+    47.4
+  ],
+  "P_above_5Msun_inflated": 97.0,
+  "P_above_10Msun_inflated": 64.9,
+  "note_posterior": "This is an approximate stress test, not a formal posterior.  The full covariance matrix of the astrometric solution is not available in DR3.  Parallax-inflated scenario uses factor 1.5 per DR3 validation."
 }

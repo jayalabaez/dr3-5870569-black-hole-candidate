@@ -54,10 +54,15 @@ the Gaia NSS pipeline assumptions --- including an adopted primary
 mass $M_1 = 1.04\,\Msun$ --- the derived companion mass is
 $M_2 = 12.55\,\Msun$, placing it firmly in the stellar-mass
 black hole regime.  Our Monte~Carlo posterior
-($5 \times 10^5$ draws) yields
-$M_2 = 12.5^{+1.6}_{-1.4}\,\Msun$ (median and 68~per~cent
-credible interval), with $P(M_2 > 5\,\Msun) = 100$~per~cent and
-$P(M_2 > 10\,\Msun) = 96.4$~per~cent.  The system comprises a
+($5 \times 10^5$ draws), propagating uncertainties in $M_1$, $P$,
+and $\varpi$, yields
+$M_2 = 12.5^{+7.3}_{-4.0}\,\Msun$ (median and 68~per~cent
+credible interval $[8.5, 19.8]\,\Msun$), with
+$P(M_2 > 5\,\Msun) = 99.6$~per~cent and
+$P(M_2 > 10\,\Msun) = 71.4$~per~cent.
+Inflating the DR3 parallax uncertainty by a factor of $1.5\times$
+(as recommended for orbital solutions near $G \approx 12$)
+still yields $P(M_2 > 5\,\Msun) = 97$~per~cent.  The system comprises a
 K2--K3\,III giant primary ($G = 12.28$,
 $G_{\rm BP} - G_{\rm RP} = 1.49$; Gaia GSP-Phot
 $T_{\rm eff} = 4832$\,K, $\log g = 3.26$)
@@ -71,7 +76,8 @@ main-sequence star of $12.55\,\Msun$ would be a late-B type star
 with $L \sim 17{,}000\,\Lsun$ and
 $T_{\rm eff} \sim 24{,}000$\,K, outshining the
 $\sim$\,$47\,\Lsun$ K-giant primary by a factor of
-$\sim$\,$570$ --- firmly excluded by the observed single
+$\sim$\,$360$ bolometrically and $\sim$\,$42\times$ in the
+$G$~band --- firmly excluded by the observed single
 cool-star SED.  All seven non-BH alternative scenarios are
 excluded: five on mass or luminosity grounds (MS companion, WD,
 NS, hierarchical triple, stripped He star) and two by the
@@ -84,6 +90,10 @@ normal disk kinematics.  With $M_2 \sim 12.5\,\Msun$, this
 candidate is comparable to Gaia~BH1 ($9.6\,\Msun$) and Gaia~BH2
 ($8.9\,\Msun$), and among the most massive stellar-mass BH
 candidates from Gaia with AstroSpectroSB1 confirmation.
+We note that \citet{Tanikawa2023} independently identified this
+source as a BH candidate; our analysis provides the first
+detailed multi-wavelength characterisation and uncertainty
+quantification.
 \end{abstract}
 
 \begin{keywords}
@@ -136,6 +146,12 @@ Gaia DR3 NSS catalogue, 163 of which are GOLD-tier BH candidates.
 In this paper we focus on Gaia DR3 5870569352746778624, a
 GOLD-tier candidate with a derived companion mass of
 $M_2 = 12.55\,\Msun$ from an \texttt{AstroSpectroSB1} solution.
+\citet{Tanikawa2023} independently identified this source as a BH
+candidate in their astrometric binary search.  Our analysis
+provides a deeper characterisation: Monte~Carlo uncertainty
+propagation (including parallax), multi-wavelength SED checks,
+companion-light exclusion, alternative-scenario assessment, and
+archival upper limits.
 At $M_2 \sim 12.5\,\Msun$, this is comparable to the confirmed
 Gaia BH1 ($9.6\,\Msun$) and BH2 ($8.9\,\Msun$), and exceeds
 both by $\sim$\,$30$--$40$~per~cent.
@@ -218,9 +234,23 @@ $G_{\rm RP} = 11.472$ ($G_{\rm BP} - G_{\rm RP} = 1.493$).
 
 We find no ROSAT (2RXS; \citealt{Boller2016}) or XMM-Newton
 (4XMM-DR13; \citealt{Webb2020}) counterpart within $30\arcsec$.
+The eROSITA eRASS1 catalogue \citep{Merloni2024} covers the
+western Galactic hemisphere ($180\degr < l < 360\degr$); at
+$l = 310.4\degr$ the source falls within the eROSITA footprint,
+yet no counterpart is catalogued.  Adopting a typical 0.5--2\,keV
+sensitivity limit of $\sim 5 \times 10^{-14}$\,erg\,cm$^{-2}$\,s$^{-1}$
+yields an X-ray luminosity upper limit
+$L_{\rm X} < 5.3 \times 10^{30}$\,erg\,s$^{-1}$ at $d = 1490$\,pc,
+consistent with a quiescent non-accreting BH (cf.\
+Gaia~BH1/BH2; \citealt{ElBadry2023a, ElBadry2023b}).
+
+In the radio, the source lies within the RACS-low and SUMSS
+survey footprints (Dec$\,< -30\degr$) but is not detected in
+either catalogue.  The VLASS footprint does not cover
+Dec$\,\approx -59\degr$.
 At $b = 2.8\degr$, moderate Galactic absorption ($N_{\rm H}$) is
 expected, which may suppress soft X-ray emission.  However, the
-absence of X-ray emission is consistent with a quiescent,
+absence of X-ray and radio emission is consistent with a quiescent,
 non-accreting system.  At periastron, the separation
 $a(1-e) \approx 2.7$\,AU is much larger than the Roche lobe of
 the K-giant primary, so active mass transfer is not expected.
@@ -229,10 +259,12 @@ the K-giant primary, so active mass transfer is not expected.
 \label{sec:data:simbad}
 
 Querying SIMBAD \citep{Wenger2000} at the source position returns
-no prior identification as a compact-object binary.  At
-$G = 12.3$ the source may appear in photometric surveys (2MASS,
-AllWISE) but has not been flagged as a BH candidate in the
-literature.  This is a novel discovery candidate.
+no prior compact-object classification for this source.
+\citet{Tanikawa2023} identified it as a BH candidate in their
+systematic astrometric-binary search of Gaia DR3, but no detailed
+characterisation has been published.  Our work provides the first
+comprehensive multi-wavelength analysis and uncertainty
+quantification for this system.
 
 The source does not appear in LAMOST, GALAH, RAVE, or APOGEE
 spectroscopic surveys.
@@ -319,6 +351,23 @@ simple blackbody model.  The key point is that the SED shows no
 evidence of a hot blue excess that would be expected from a
 luminous B-type companion.
 
+We note a self-consistency tension in the primary-star parameters.
+The photometric luminosity distance gives
+$R \approx 9.8\,\Rsun$, $L \approx 47\,\Lsun$, whereas the
+GSP-Phot surface gravity ($\log g = 3.26$) combined with
+$M_1 = 1.04\,\Msun$ implies
+$R_{\log g} \approx 4.0\,\Rsun$, $L_{\log g} \approx 7.7\,\Lsun$
+--- a factor of $\sim$\,$2.5\times$ in radius and
+$\sim$\,$6\times$ in luminosity.  This discrepancy is not
+unexpected: the GSP-Phot pipeline fits single-star templates and
+is known to yield unreliable $\log g$ values for sources with
+high RUWE (here 9.22), where the astrometric excess scatter from
+the binary orbit contaminates the spectrophotometric solution
+\citep{Andrae2023}.  We therefore adopt the photometric distance
+values ($R \approx 9.8\,\Rsun$, $L \approx 47\,\Lsun$) as our
+fiducial estimates but report both sets of values for
+transparency.
+
 \subsection{Monte Carlo mass posterior}
 \label{sec:methods:mc}
 
@@ -327,28 +376,47 @@ We draw $N = 500\,000$ Monte~Carlo realisations propagating:
 \item Primary mass $M_1$: Gaussian prior centred on
   $1.04\,\Msun$ with $\sigma = 0.20\,\Msun$.
 \item Period $P$: Gaussian ($1352.29 \pm 45.47$\,d).
+\item Parallax $\varpi$: Gaussian ($0.672 \pm 0.104$\,mas),
+  which enters through the conversion
+  $a_{0,{\rm phys}} = a_{0,{\rm ang}} / \varpi$.
 \item Model systematic: 10~per~cent Gaussian.
 \end{enumerate}
 For each draw, $M_2$ is solved from
-equation~(\ref{eq:m2constraint}) via Newton iteration, keeping the
-measured photo-centre semi-major axis $a_0$ fixed.
+equation~(\ref{eq:m2constraint}) via Newton iteration.
+Because the parallax converts $a_0$ from angular to physical
+scale, its fractional uncertainty (15.5~per~cent) propagates
+\emph{directly} into the mass function and dominates the error
+budget.  We additionally run the posterior with the parallax
+uncertainty inflated by a factor of $1.5\times$, as
+recommended for DR3 orbital solutions near $G \approx 12$,
+to assess robustness (Section~\ref{sec:results:posterior}).
+We emphasise that this procedure is an approximate stress test,
+not a formal Bayesian posterior, since the full covariance matrix
+of the NSS orbital parameters is not publicly available.
 
 \subsection{Companion-light test}
 \label{sec:methods:companion}
 
 For a hypothetical main-sequence companion, we compute the expected
-luminosity using empirical mass--luminosity relations
-\citep{Eker2018}.  At $M_2 = 12.55\,\Msun$, a MS companion would
-have $L \sim 17{,}000\,\Lsun$ ($T_{\rm eff} \sim 24{,}000$\,K,
-late B-type).  Against the K-giant primary
-($L \approx 47\,\Lsun$), the hypothetical MS companion would be
-$\sim$\,$570\times$ brighter bolometrically and
-$\sim$\,$43{,}000\times$ brighter in the $G$ band.  The observed
-single cool-star SED firmly excludes this scenario.
+flux ratios using the Planck function at the effective temperatures
+of the primary and companion, scaled by the square of their
+respective radii \citep{Eker2018}.  At $M_2 = 12.55\,\Msun$, a
+MS companion would have $L \sim 17{,}000\,\Lsun$
+($T_{\rm eff} \sim 24{,}000$\,K, late B-type).  Against the
+K-giant primary ($L \approx 47\,\Lsun$, $R \approx 9.8\,\Rsun$),
+the companion would be $\sim$\,$360\times$ brighter
+bolometrically and $\sim$\,$42\times$ brighter in the $G$ band
+(the band-specific ratio is smaller than the bolometric ratio
+because the $G$ band samples a spectral region where the
+cool primary's flux is relatively high).  Using instead the
+$\log g$-derived radius $R_{\log g} \approx 4.0\,\Rsun$ gives
+even stronger exclusion ($\sim$\,$250\times$ in $G$).
+The observed single cool-star SED firmly excludes this scenario.
 
 We estimate the maximum MS companion mass that could be hidden
 below a 5~per~cent detection threshold (in any band) as
-$\sim$\,$0.92\,\Msun$.
+$\sim$\,$1.1\,\Msun$ (photometric $R$) or
+$\sim$\,$0.8\,\Msun$ ($\log g$-based $R$).
 
 % ====================================================================
 \section{Results}
@@ -379,10 +447,19 @@ present eccentricity is effectively frozen.
 The extinction-corrected absolute magnitude
 $M_G \approx 0.86$ and
 $(G_{\rm BP} - G_{\rm RP})_0 \approx 1.20$ place the primary as a
-K2--K3\,III giant with $L \approx 47\,\Lsun$ and
-$R \approx 9.8\,\Rsun$.  The GSP-Phot parameters
-($T_{\rm eff} = 4832$\,K, $\log g = 3.26$) are fully consistent
-with this classification.
+K2--K3\,III giant.  From the photometric distance and extinction we
+obtain $L \approx 47\,\Lsun$ and $R \approx 9.8\,\Rsun$.  The
+GSP-Phot surface gravity ($\log g = 3.26$), if taken at face value
+with $M_1 = 1.04\,\Msun$, implies a smaller radius
+$R_{\log g} \approx 4.0\,\Rsun$ and luminosity
+$L_{\log g} \approx 7.7\,\Lsun$ --- a factor of
+$\sim$\,$2.5\times$ discrepancy.  As discussed in
+Section~\ref{sec:methods:sed}, GSP-Phot $\log g$ values are
+unreliable for RUWE$\,= 9.22$ binaries, and we adopt the
+photometric estimates as fiducial.  The true primary parameters
+likely lie between these two sets of values; our companion-light
+test (Section~\ref{sec:results:companion}) is conservative in that
+the photometric $R$ gives the \emph{weaker} exclusion.
 
 \subsection{Companion-light test}
 \label{sec:results:companion}
@@ -391,29 +468,48 @@ A main-sequence star of $M_2 = 12.55\,\Msun$ would have
 $L \sim 17{,}000\,\Lsun$ and $T_{\rm eff} \sim 24{,}000$\,K ---
 a late-B type star that would overwhelmingly dominate the SED at
 all optical and UV wavelengths.  Against the $47\,\Lsun$ K-giant
-primary, the hypothetical companion would be $\sim$\,$570\times$
-brighter bolometrically and $\sim$\,$43{,}000\times$ brighter in
-the $G$ band.  The maximum hidden MS companion mass is
-$0.92\,\Msun$ --- far below the derived $M_2$.  The
+primary, the hypothetical companion would be
+$\sim$\,$360\times$ brighter bolometrically and
+$\sim$\,$42\times$ brighter in the $G$ band
+(or $\sim$\,$250\times$ in $G$ if the smaller $\log g$-based
+radius $R = 4.0\,\Rsun$ is used for the primary).  The maximum
+hidden MS companion mass is
+$1.1\,\Msun$ (photometric $R$) or $0.8\,\Msun$
+($\log g$-based $R$) --- far below the derived $M_2$.  The
 dark nature of the companion is firmly established.
 
 \subsection{Mass posterior}
 \label{sec:results:posterior}
 
-The Monte~Carlo posterior (Fig.~\ref{fig:posterior}) yields:
+The Monte~Carlo posterior (Fig.~\ref{fig:posterior}), which now
+propagates parallax uncertainty alongside $M_1$ and $P$, yields:
 \begin{itemize}
 \item Median companion mass: $\tilde{M}_2 = 12.5\,\Msun$
-\item 68~per~cent CI: $[11.1, 14.1]\,\Msun$
-\item 90~per~cent CI: $[10.2, 15.1]\,\Msun$
-\item $P(M_2 > 5\,\Msun) = 100$~per~cent
-\item $P(M_2 > 10\,\Msun) = 96.4$~per~cent
+\item 68~per~cent CI: $[8.5, 19.8]\,\Msun$
+\item 90~per~cent CI: $[6.8, 28.4]\,\Msun$
+\item $P(M_2 > 5\,\Msun) = 99.6$~per~cent
+\item $P(M_2 > 10\,\Msun) = 71.4$~per~cent
 \item $P(M_2 > 33\,\Msun) = 0$~per~cent
 \end{itemize}
 
+The 68~per~cent CI is substantially wider than that obtained without
+parallax propagation ($[11.1, 14.1]\,\Msun$), reflecting the
+strong dependence of $M_2$ on $\varpi$ through
+$a_{0,{\rm phys}} \propto 1/\varpi$.  A parallax-only stress test
+shows that changing $\varpi$ by $\pm 1\sigma$ shifts $M_2$ from
+$\sim$\,8.7 to $\sim$\,19.6$\,\Msun$, confirming that parallax
+is the dominant uncertainty source.
+
+With the parallax uncertainty inflated by $1.5\times$
+(simulating potential DR3 underestimation of orbital parallax
+errors), the posterior broadens to 68~per~cent CI
+$[7.3, 25.6]\,\Msun$, with $P(M_2 > 5\,\Msun) = 97.0$~per~cent
+and $P(M_2 > 10\,\Msun) = 64.9$~per~cent.
 The companion mass exceeds the conventional BH threshold
-($5\,\Msun$) with 100~per~cent posterior probability, and exceeds
-$10\,\Msun$ at 96.4~per~cent confidence.  This places the
-companion firmly in the stellar-mass BH regime.
+($5\,\Msun$) with $>97$~per~cent posterior probability even under
+conservative error inflation.  We caution that the true posterior
+may differ once the full NSS covariance matrix (including $a_0$
+and other orbital elements) becomes available.
 
 \subsection{Sensitivity analysis}
 \label{sec:results:sensitivity}
@@ -424,9 +520,14 @@ produces a moderate sensitivity: varying $M_1$ from $0.5$ to
 $2.0\,\Msun$ shifts $M_2$ from $11.6$ to $14.0\,\Msun$ ---
 a span of $2.4\,\Msun$.  Crucially,
 $P(M_2 > 10\,\Msun) > 89$~per~cent for all tested values of
-$M_1$, and $P(M_2 > 5\,\Msun) = 100$~per~cent throughout.
+$M_1$, and $P(M_2 > 5\,\Msun) > 99$~per~cent throughout.
 The BH classification is robust against any reasonable choice
 of primary mass.
+
+With parallax propagation now included, the sensitivity to $M_1$
+is subdominant: the parallax contributes $\sim$\,$80$~per~cent
+of the total variance in $M_2$, while $M_1$ contributes
+$\sim$\,$15$~per~cent and $P$ the remaining $\sim$\,$5$~per~cent.
 
 % ====================================================================
 \section{Alternative Scenarios}
@@ -436,7 +537,8 @@ of primary mass.
 A $12.55\,\Msun$ MS star would be a late-B type star with
 $L \sim 17{,}000\,\Lsun$ and $T_{\rm eff} \sim 24{,}000$\,K,
 outshining the $\sim$\,$47\,\Lsun$ K giant by a factor of
-$\sim$\,$570$.  The system would appear as a luminous blue source,
+$\sim$\,$360$ bolometrically and $\sim$\,$42\times$ in the
+$G$ band.  The system would appear as a luminous blue source,
 not a relatively faint K-giant.  \textbf{Excluded.}
 
 \paragraph{White dwarf.}
@@ -483,10 +585,14 @@ membership.  \textbf{Excluded.}
 
 \medskip\noindent
 \textbf{Summary:} All seven non-BH scenarios are excluded.  This
-is the strongest exclusion profile possible, achieved because:
+is the strongest exclusion profile achievable with the present
+data, although we note that ground-based follow-up is needed
+for definitive dynamical confirmation.  The
+exclusion rests on three pillars:
 (i) the companion mass exceeds the WD and NS mass ceilings by
 factors of 5--9; (ii) a luminous MS or stripped companion would
-overwhelm the K-giant SED; and (iii) the
+dominate the K-giant SED by factors of $\sim$\,$40$--$360$
+depending on band; and (iii) the
 \texttt{AstroSpectroSB1} solution provides independent
 astrometric and spectroscopic confirmation, eliminating
 artefact and chance-alignment scenarios that would survive for
@@ -498,15 +604,22 @@ pure \texttt{Orbital} solutions.
 
 \subsection{A robust stellar-mass black hole candidate}
 
-With $M_2 \approx 12.5\,\Msun$, this candidate is comparable to
+With $M_2 \approx 12.5\,\Msun$ (68~per~cent CI
+$[8.5, 19.8]\,\Msun$), this candidate is comparable to
 the confirmed Gaia~BH1 ($9.6\,\Msun$; \citealt{ElBadry2023a}) and
 Gaia~BH2 ($8.9\,\Msun$; \citealt{ElBadry2023b}), and exceeds both
-by $\sim$\,$30$--$40$~per~cent.  The companion mass is well within
-the expected range for stellar-mass BHs formed through
-core collapse of massive stars \citep{Fryer2012, Belczynski2020}
-and is far below the pair-instability supernova (PISN) mass gap,
-avoiding the theoretical complications associated with more
-massive candidates.
+by $\sim$\,$30$--$40$~per~cent at the median.  The companion mass
+is well within the expected range for stellar-mass BHs formed
+through core collapse of massive stars \citep{Fryer2012,
+Belczynski2020} and is far below the pair-instability supernova
+(PISN) mass gap, avoiding the theoretical complications
+associated with more massive candidates.
+The wide credible interval reflects honest propagation of the
+DR3 parallax uncertainty; the most defensible single-sentence
+claim is that Gaia DR3 5870569352746778624 hosts a dark
+companion of $M_2 \approx 12.5\,\Msun$ (median), with
+$>$97~per~cent probability of exceeding $5\,\Msun$ even
+under conservative parallax-error inflation.
 
 The \texttt{AstroSpectroSB1} solution type provides a level of
 confidence that exceeds pure \texttt{Orbital} solutions.  Both
@@ -533,7 +646,8 @@ out:
 \item \textbf{Primary:} The K-giant primary is similar to
   Gaia~BH2 (also an evolved giant companion).
 \item \textbf{Solution type:} \texttt{AstroSpectroSB1} --- the
-  same as Gaia~BH1 and BH2 (both confirmed).
+  same as Gaia~BH1 and BH2 (both confirmed).  Gaia~BH3 uses
+  a combined Astrometric + RVS solution.
 \end{itemize}
 
 The striking similarity to Gaia~BH2 ($P = 1277$\,d, $e = 0.52$,
@@ -589,15 +703,29 @@ Key caveats:
 \begin{itemize}
 \item \textbf{Parallax uncertainty.}  $\varpi = 0.672 \pm
   0.104$\,mas (15.5~per~cent), though this is better than
-  most BH candidates in our sample.
+  most BH candidates in our sample.  The parallax enters
+  directly into the physical scale of the orbit and is the
+  dominant source of uncertainty in $M_2$.  A $\pm 1\sigma$
+  change in $\varpi$ shifts $M_2$ from $\sim$\,8.7 to
+  $\sim$\,19.6$\,\Msun$.
+\item \textbf{Self-consistency of primary parameters.}  The
+  photometric distance implies $R \approx 9.8\,\Rsun$ while
+  $\log g + M_1$ gives $R \approx 4.0\,\Rsun$.  This likely
+  reflects contamination of the GSP-Phot solution by the binary
+  orbital motion (RUWE$\,= 9.22$).  Ground-based high-resolution
+  spectroscopy would resolve this tension.
+\item \textbf{NSS covariance.}  The full covariance matrix of the
+  NSS orbital parameters is not published; our Monte~Carlo
+  procedure treats $M_1$, $P$, and $\varpi$ as independent.  The
+  true posterior may be narrower or wider depending on correlations.
 \item \textbf{Low Galactic latitude.}  At $b = 2.8\degr$,
   source crowding and differential extinction could introduce
   systematics, although the bright magnitude ($G = 12.3$)
   mitigates this.
-\item \textbf{M1 sensitivity.}  The $M_2/M_1$ ratio of
+\item \textbf{$M_1$ sensitivity.}  The $M_2/M_1$ ratio of
   $\sim$\,12:1 means $M_2$ has moderate (not negligible)
   dependence on $M_1$.  However, $P(M_2 > 5\,\Msun)$ remains
-  100~per~cent for all plausible $M_1$ values.
+  $>$99~per~cent for all plausible $M_1$ values.
 \item \textbf{No independent spectroscopic surveys.}  LAMOST,
   GALAH, RAVE, and APOGEE have not observed this source.
 \end{itemize}
@@ -612,11 +740,15 @@ We have presented a comprehensive analysis of Gaia DR3
 \begin{enumerate}
 \item The \texttt{AstroSpectroSB1} solution --- combining
   independent astrometric and spectroscopic constraints ---
-  yields a companion mass $M_2 = 12.5^{+1.6}_{-1.4}\,\Msun$
-  (68~per~cent CI), firmly in the stellar-mass BH regime.
+  yields a companion mass $M_2 = 12.5^{+7.3}_{-4.0}\,\Msun$
+  (68~per~cent CI from Monte~Carlo propagation of parallax,
+  period, and primary-mass uncertainties), firmly in the
+  stellar-mass BH regime.
 
-\item $P(M_2 > 5\,\Msun) = 100$~per~cent and
-  $P(M_2 > 10\,\Msun) = 96.4$~per~cent.  The BH classification
+\item $P(M_2 > 5\,\Msun) = 99.6$~per~cent and
+  $P(M_2 > 10\,\Msun) = 71.4$~per~cent.  Even with parallax
+  uncertainty inflated by $1.5\times$,
+  $P(M_2 > 5\,\Msun) = 97.0$~per~cent.  The BH classification
   is robust against primary-mass uncertainty.
 
 \item All seven non-BH scenarios are excluded: five on mass and
@@ -626,11 +758,15 @@ We have presented a comprehensive analysis of Gaia DR3
 
 \item A main-sequence companion at the derived mass would be a
   late-B type star outshining the K-giant primary by a factor of
-  $\sim$\,$570$ bolometrically --- firmly excluded by the
-  observed SED.
+  $\sim$\,$360$ bolometrically and $\sim$\,$42\times$ in the
+  $G$ band --- firmly excluded by the observed SED.
 
-\item No ROSAT or XMM detection is consistent with a quiescent,
-  non-accreting system in a wide orbit ($P = 1352$\,d).
+\item No ROSAT, XMM, or eROSITA detection is observed, with an
+  X-ray luminosity upper limit
+  $L_{\rm X} < 5.3 \times 10^{30}$\,erg\,s$^{-1}$, consistent
+  with a quiescent, non-accreting system in a wide orbit
+  ($P = 1352$\,d).  No radio counterpart is detected in RACS
+  or SUMSS.
 
 \item The source lies at $|z| \approx 72$\,pc in the Galactic
   thin disk, consistent with formation through standard
@@ -648,7 +784,9 @@ that merits ground-based RV confirmation.  Its high significance,
 dual-technique solution type, bright apparent magnitude, and
 similarity to the confirmed Gaia~BH1/BH2 systems make it one of
 the most promising candidates for follow-up in the Gaia dormant
-BH sample.
+BH sample.  We note that \citet{Tanikawa2023} independently
+identified this source as a candidate; our work provides the
+first comprehensive characterisation.
 
 % ====================================================================
 \section*{Acknowledgements}
@@ -714,7 +852,7 @@ NSS significance       & 39.85$\sigma$        & ---      & Gaia NSS \\
 GOF                    & $3.07$               & ---      & Gaia NSS \\
 $M_1$ (catalogue)      & 1.04 $\Msun$         & ---$^a$  & Gaia \texttt{binary\_masses} \\
 $M_2$ (catalogue)      & 12.55 $\Msun$        & ---$^a$  & Gaia \texttt{binary\_masses} \\
-$M_2$ (MC posterior)   & $12.5^{+1.6}_{-1.4}$ $\Msun$ & 68\%~CI & This work \\
+$M_2$ (MC posterior)   & $12.5^{+7.3}_{-4.0}$ $\Msun$ & 68\%~CI & This work \\
 \midrule
 \multicolumn{4}{c}{\textit{Stellar parameters}} \\
 $T_{\rm eff}$ (GSP-Phot)   & 4832 K           & ---      & Gaia DR3 \\
@@ -727,15 +865,18 @@ $v_{\rm sys}$              & $-5.04\,\kms$    & 2.08     & Gaia RVS \\
 $E(G_{\rm BP} - G_{\rm RP})$ & 0.29 mag       & $\sim$0.05 & Colour excess \\
 $A_V$                  & 0.70 mag             & $\sim$0.1 & $R_V = 3.1$ \\
 $M_G$ (dereddened)     & 0.86 mag             & $\sim$0.4 & Derived \\
-$L$ (luminosity)       & $\sim$47 $\Lsun$     & ---      & Derived \\
-$R$ (radius)           & $\sim$9.8 $\Rsun$    & ---      & Derived \\
+$L$ (luminosity)       & $\sim$47 $\Lsun$     & ---      & Photometric$^b$ \\
+$R$ (radius)           & $\sim$9.8 $\Rsun$    & ---      & Photometric$^b$ \\
+$L_{\log g}$           & $\sim$7.7 $\Lsun$    & ---      & From $\log g + M_1$$^b$ \\
+$R_{\log g}$           & $\sim$4.0 $\Rsun$    & ---      & From $\log g + M_1$$^b$ \\
 $a$ (semi-major axis)  & $\sim$5.7 AU         & ---      & Kepler III \\
 $|z|$ (height)         & $\sim$0.072 kpc      & ---      & Derived \\
 Population             & Thin disk            & ---      & $|z| < 0.3$\,kpc \\
-$P(M_2 > 5\,\Msun)$   & 100\%                & ---      & MC posterior \\
-$P(M_2 > 10\,\Msun)$  & 96.4\%               & ---      & MC posterior \\
+$P(M_2 > 5\,\Msun)$   & 99.6\%               & ---      & MC posterior \\
+$P(M_2 > 10\,\Msun)$  & 71.4\%               & ---      & MC posterior \\
 \bottomrule
 \multicolumn{4}{l}{$^a$ Formal uncertainty not available in the catalogue.}\\
+\multicolumn{4}{l}{$^b$ See Section~\ref{sec:methods:sed} for the $R$/$L$ self-consistency discussion.}\\
 \end{tabular}
 \end{table*}
 
@@ -748,7 +889,7 @@ excluded --- the strongest possible outcome.}
 \toprule
 Scenario & Verdict & Key constraint \\
 \midrule
-MS companion    & Excluded & $570\times$ brighter than primary \\
+MS companion    & Excluded & $360\times$ brighter than primary \\
 White dwarf     & Excluded & $M_2 = 9\,M_{\rm Ch}$ \\
 Neutron star    & Excluded & $M_2 = 5\,M_{\rm TOV}$ \\
 Triple system   & Excluded & Stability + $5{,}000\,\Lsun$ \\
@@ -799,7 +940,7 @@ $M_2$ ($\Msun$)     & 9.62    & 8.94    & 32.70    & 12.55    \\
 $d$ (pc)            & 480     & 1160    & 590      & $\sim$1490 \\
 $G$ (mag)           & 13.8    & 12.3    & 11.6     & 12.3     \\
 $|z|$ (kpc)         & ---     & ---     & ---      & 0.072    \\
-Sol.\ type          & AstroSpectroSB1 & AstroSpectroSB1 & Orbital & AstroSpectroSB1 \\
+Sol.\ type          & AstroSpectroSB1 & AstroSpectroSB1 & Astrometric+RVS & AstroSpectroSB1 \\
 Status              & Confirmed & Confirmed & Confirmed & Candidate \\
 \bottomrule
 \end{tabular}
@@ -823,11 +964,15 @@ $\sim$\,$8.7$\,AU.}
 \begin{figure*}
 \includegraphics[width=\textwidth]{figures/fig_mass_posterior.pdf}
 \caption{Companion mass posterior from $5 \times 10^5$ Monte~Carlo
-draws.  \textit{Left:} $M_2$ as a function of assumed $M_1$,
-showing moderate but bounded sensitivity.  \textit{Right:}
-Marginalised posterior histogram.  Median
-$M_2 = 12.5\,\Msun$; 68~per~cent CI
-$[11.1, 14.1]\,\Msun$; $P(M_2 > 5\,\Msun) = 100$~per~cent.}
+draws propagating uncertainties in $M_1$, $P$, and $\varpi$.
+\textit{Left:} $M_2$ as a function of assumed $M_1$,
+showing moderate but bounded sensitivity.
+\textit{Centre:} Marginalised posterior histogram for nominal
+(blue) and parallax-inflated ($1.5\times$; orange) scenarios.
+\textit{Right:} Parallax-only stress test showing
+$M_2 \approx 8.7$--$19.6\,\Msun$ at $\varpi \pm 1\sigma$.
+Median $M_2 = 12.5\,\Msun$; 68~per~cent CI
+$[8.5, 19.8]\,\Msun$; $P(M_2 > 5\,\Msun) = 99.6$~per~cent.}
 \label{fig:posterior}
 \end{figure*}
 
@@ -836,14 +981,16 @@ $[11.1, 14.1]\,\Msun$; $P(M_2 > 5\,\Msun) = 100$~per~cent.}
 \caption{Companion-light test.  A hypothetical MS star of
 $12.55\,\Msun$ would produce $L \sim 17{,}000\,\Lsun$
 ($T_{\rm eff} \sim 24{,}000$\,K), outshining the K-giant primary
-by a factor of $\sim$\,$570$ bolometrically.  This is firmly
-excluded by the observed SED.}
+by a factor of $\sim$\,$360$ bolometrically and
+$\sim$\,$42\times$ in the $G$ band.
+This is firmly excluded by the observed SED.}
 \label{fig:companion}
 \end{figure*}
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{figures/fig_sensitivity.pdf}
-\caption{Sensitivity analysis.  \textit{Left:} Baseline posterior.
+\caption{Sensitivity analysis.  \textit{Left:} Baseline and
+parallax-inflated posteriors overlaid.
 \textit{Centre:} $M_2$ vs assumed $M_1$ --- the companion mass
 varies moderately but remains above the BH threshold throughout.
 \textit{Right:} $P(M_2 > {\rm threshold})$ vs threshold mass.}

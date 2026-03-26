@@ -47,13 +47,18 @@ NDRAWS = 500_000
 
 BH_THRESH_DEFAULT = 5.0    # stellar-mass BH floor
 BH_THRESH_HIGH = 10.0      # above Gaia BH2
+PLX_INFLATION = 1.5        # DR3 orbital parallax error inflation
 
 
-def kepler_m2(m1, P_d, m2_ref):
-    """Rescale M2 keeping photo-centre semi-major axis a0 fixed."""
+def kepler_m2(m1, P_d, plx, m2_ref):
+    """Rescale M2 keeping angular photo-centre semi-major axis fixed.
+
+    The constraint is: M2/(M1+M2)^{2/3} = C / (plx * P^{2/3})
+    where C encodes the angular measurement.
+    """
     M_total_ref = M1_REF + m2_ref
     lhs = m2_ref / M_total_ref**(2.0 / 3.0)
-    scale = (P_REF / P_d)**(2.0 / 3.0) * lhs
+    scale = (P_REF / P_d)**(2.0 / 3.0) * (PLX / plx) * lhs
 
     m2 = np.full_like(np.atleast_1d(m1), m2_ref, dtype=np.float64)
     m1 = np.atleast_1d(m1).astype(np.float64)
@@ -67,9 +72,9 @@ def kepler_m2(m1, P_d, m2_ref):
     return m2
 
 
-def compute_posterior(m1, P_d, systematic_frac=0.10):
+def compute_posterior(m1, P_d, plx, systematic_frac=0.10):
     """Return M2 draws including Gaussian model systematic."""
-    m2 = kepler_m2(m1, P_d, M2_REF)
+    m2 = kepler_m2(m1, P_d, plx, M2_REF)
     noise = 1.0 + systematic_frac * np.random.randn(len(m1))
     return m2 * noise
 
@@ -86,8 +91,10 @@ def run_sweep():
     )
     P_draws = rng.normal(P_REF, P_ERR, NDRAWS)
     P_draws = np.clip(P_draws, 1.0, None)
+    plx_draws = rng.normal(PLX, PLX_ERR, NDRAWS)
+    plx_draws = np.clip(plx_draws, 0.05, None)
 
-    m2_base = compute_posterior(m1_draws, P_draws)
+    m2_base = compute_posterior(m1_draws, P_draws, plx_draws)
     valid = (m2_base > 0.1) & (m2_base < 200)
     m2_base = m2_base[valid]
 
@@ -110,7 +117,9 @@ def run_sweep():
     for m1v in m1_grid:
         m1d = np.full(NDRAWS, m1v) + rng.normal(0, 0.1, NDRAWS)
         m1d = np.clip(m1d, 0.3, None)
-        m2 = compute_posterior(m1d, P_draws[:NDRAWS])
+        plx_d = rng.normal(PLX, PLX_ERR, NDRAWS)
+        plx_d = np.clip(plx_d, 0.05, None)
+        m2 = compute_posterior(m1d, P_draws[:NDRAWS], plx_d)
         m2 = m2[(m2 > 0.1) & (m2 < 200)]
         m1_sweep[str(m1v)] = {
             'median': float(np.median(m2)),
@@ -120,7 +129,32 @@ def run_sweep():
         print(f'    M1={m1v:.2f}: M2_med={np.median(m2):.1f}, '
               f'P(>10)={np.mean(m2>10):.3f}')
     results['M1_sweep'] = m1_sweep
-
+    # ── Parallax-inflated scenario ───────────────────────────────────
+    plx_err_inf = PLX_ERR * PLX_INFLATION
+    plx_draws_inf = rng.normal(PLX, plx_err_inf, NDRAWS)
+    plx_draws_inf = np.clip(plx_draws_inf, 0.05, None)
+    m1_draws_inf = rng.lognormal(
+        mean=np.log(M1_REF) - 0.5 * (0.2 / M1_REF)**2,
+        sigma=0.2 / M1_REF, size=NDRAWS)
+    P_draws_inf = rng.normal(P_REF, P_ERR, NDRAWS)
+    P_draws_inf = np.clip(P_draws_inf, 1.0, None)
+    m2_inflated = compute_posterior(m1_draws_inf, P_draws_inf, plx_draws_inf)
+    m2_inflated = m2_inflated[(m2_inflated > 0.1) & (m2_inflated < 500)]
+    results['parallax_inflated'] = {
+        'inflation_factor': PLX_INFLATION,
+        'plx_err_inflated': round(plx_err_inf, 3),
+        'median': float(np.median(m2_inflated)),
+        'p16': float(np.percentile(m2_inflated, 16)),
+        'p84': float(np.percentile(m2_inflated, 84)),
+        'P_BH_5': float(np.mean(m2_inflated > BH_THRESH_DEFAULT)),
+        'P_BH_10': float(np.mean(m2_inflated > BH_THRESH_HIGH)),
+    }
+    print(f'\n  Parallax-inflated (x{PLX_INFLATION}): '
+          f'M2 = {np.median(m2_inflated):.1f} '
+          f'[{np.percentile(m2_inflated,16):.1f}, '
+          f'{np.percentile(m2_inflated,84):.1f}]')
+    print(f'    P(M2>5) = {np.mean(m2_inflated>5):.3f}, '
+          f'P(M2>10) = {np.mean(m2_inflated>10):.3f}')
     # ── Parallax / distance sweep ────────────────────────────────
     plx_grid = [PLX + 2*PLX_ERR, PLX + PLX_ERR, PLX,
                 PLX - PLX_ERR, PLX - 2*PLX_ERR]
@@ -143,16 +177,20 @@ def run_sweep():
         thresh_sweep[str(th)] = float(np.mean(m2_base > th))
     results['BH_threshold_sweep'] = thresh_sweep
 
-    return results, m2_base, m1_grid, m1_sweep
+    return results, m2_base, m1_grid, m1_sweep, m2_inflated
 
 
-def make_figure(m2_base, m1_grid, m1_sweep):
+def make_figure(m2_base, m1_grid, m1_sweep, m2_inflated):
     fig, axes = plt.subplots(1, 3, figsize=(14, 4.5))
 
-    # Panel 1: baseline posterior
+    # Panel 1: baseline posterior + inflated overlay
     ax = axes[0]
-    ax.hist(m2_base[m2_base < 35], bins=120, density=True,
-            color='steelblue', alpha=0.7, edgecolor='none')
+    ax.hist(m2_base[m2_base < 50], bins=120, density=True,
+            color='steelblue', alpha=0.7, edgecolor='none',
+            label=r'Nominal $\sigma_\varpi$')
+    ax.hist(m2_inflated[m2_inflated < 50], bins=120, density=True,
+            color='salmon', alpha=0.5, edgecolor='none',
+            label=f'Inflated ' + r'$\sigma_\varpi$' + ' (' + r'$\times$' + f'{PLX_INFLATION})')
     ax.axvline(BH_THRESH_HIGH, color='purple', ls='--', lw=1.5,
                label=f'10 M$_\\odot$')
     ax.axvline(BH_THRESH_DEFAULT, color='red', ls='--', lw=1.5,
@@ -163,7 +201,7 @@ def make_figure(m2_base, m1_grid, m1_sweep):
     ax.set_ylabel('Probability density')
     ax.set_title('Baseline mass posterior')
     ax.legend(fontsize=7)
-    ax.set_xlim(0, 35)
+    ax.set_xlim(0, 50)
 
     # Panel 2: M1 sensitivity
     ax = axes[1]
@@ -206,9 +244,9 @@ def make_figure(m2_base, m1_grid, m1_sweep):
 
 def main():
     print('=== Sensitivity analysis ===\n')
-    results, m2_base, m1_grid, m1_sweep = run_sweep()
+    results, m2_base, m1_grid, m1_sweep, m2_inflated = run_sweep()
 
-    make_figure(m2_base, m1_grid, m1_sweep)
+    make_figure(m2_base, m1_grid, m1_sweep, m2_inflated)
 
     outpath = os.path.join(RESDIR, 'sensitivity_results.json')
     with open(outpath, 'w') as f:

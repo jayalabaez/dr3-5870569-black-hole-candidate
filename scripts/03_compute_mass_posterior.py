@@ -15,8 +15,14 @@ to Gaia BH1 (9.6 Msun) and Gaia BH2 (8.9 Msun).
 
 Methodology:
   5x10^5 Monte Carlo draws propagate uncertainties in M1,
-  parallax, period, and a 10% model systematic through the
-  Kepler relation keeping the observed a0 fixed.
+  parallax (critically: a0_phys = a0_ang / plx), period, and
+  a 10% model systematic through the Kepler relation keeping
+  the *angular* photo-centre semi-major axis a0_ang fixed.
+
+  Parallax inflation: Gaia DR3 orbital-solution parallax errors
+  are known to be underestimated by factors ~1.3 (G>14) to ~1.7
+  (G=8-14).  At G=12.3 we adopt an inflation factor of 1.5 and
+  report both nominal and inflated posteriors.
 
 Outputs:
   results/mass_posterior_results.json
@@ -56,6 +62,10 @@ NS_MAX = 2.3         # Msun — TOV limit
 MASS_GAP_LO = 3.0
 MASS_GAP_HI = 5.0
 
+# Parallax-error inflation factor for G ~ 12.3
+# (El-Badry+ 2024; Gaia DR3 validation: ~1.3 at G>14, ~1.7 at G=8-14)
+PLX_INFLATION = 1.5
+
 # ─── constants ───────────────────────────────────────────────────────
 G_SI = 6.674e-11
 MSUN = 1.989e30
@@ -63,22 +73,28 @@ AU = 1.496e11
 DAY = 86400.0
 
 
-def kepler_m2_vectorised(m1_arr, P_d_arr, m2_cat, systematic_arr):
+def kepler_m2_vectorised(m1_arr, P_d_arr, plx_arr, m2_cat, systematic_arr):
     """
-    Derive M2 from the AstroSpectroSB1 solution keeping the observed
-    photo-centre semi-major axis a0 fixed.
+    Derive M2 from the AstroSpectroSB1 solution keeping the *angular*
+    photo-centre semi-major axis a0_ang fixed.
 
     For a dark companion (flux ratio ~ 0):
-      a0 = a * M2 / (M1 + M2)
-    where a = (G (M1+M2) P^2 / (4 pi^2))^{1/3}.  Therefore:
-      M2 / (M1+M2)^{2/3} * P^{2/3} = constant (from a0).
+      a0_ang / plx = a * M2 / (M1 + M2)
+    where a = (G (M1+M2) P^2 / (4 pi^2))^{1/3}.
 
-    We keep this constant fixed at the catalog value and solve for
-    M2 given varied M1 and P via Newton iteration.
+    The constraint is:
+      M2 / (M1+M2)^{2/3} = C / (plx * P^{2/3})
+    where C = a0_ang * (4pi^2/G)^{1/3} is a measured constant.
+
+    We evaluate C at the catalog reference values and solve for M2
+    given varied M1, P, and plx via Newton iteration.
     """
     M_total_ref = M1_BEST + m2_cat
     lhs_ref = m2_cat / M_total_ref**(2.0 / 3.0)
-    scale = lhs_ref * (P_DAYS / P_d_arr)**(2.0 / 3.0)
+    # C encodes the angular measurement: C ∝ lhs_ref * plx_ref * P_ref^{2/3}
+    # For each draw: target = C / (plx_draw * P_draw^{2/3})
+    #              = lhs_ref * (P_DAYS/P_d_arr)^{2/3} * (PLX/plx_arr)
+    scale = lhs_ref * (P_DAYS / P_d_arr)**(2.0 / 3.0) * (PLX / plx_arr)
 
     # Newton iteration (vectorised)
     m2 = np.full_like(m1_arr, m2_cat, dtype=np.float64)
@@ -128,8 +144,8 @@ def main():
 
     model_sys = rng.normal(0, 0.10, N_DRAWS)  # 10% systematic
 
-    m2_draws = kepler_m2_vectorised(m1_draws, p_draws, M2_CATALOG,
-                                     model_sys)
+    m2_draws = kepler_m2_vectorised(m1_draws, p_draws, plx_draws,
+                                     M2_CATALOG, model_sys)
 
     # Filter valid
     valid = (m2_draws > 0.1) & (m2_draws < 200)
@@ -161,12 +177,54 @@ def main():
     print(f'    P(M2 > 33 Msun)   = {p_above_bh3:.1f}% (Gaia BH3)')
     print(f'    P(mass gap)        = {p_mass_gap:.1f}%')
 
+    # --- Parallax-inflated scenario ---
+    print(f'\n  === Parallax-inflated scenario (factor {PLX_INFLATION}) ===')
+    plx_err_inflated = PLX_ERR * PLX_INFLATION
+    print(f'    PLX_ERR nominal  = {PLX_ERR:.3f} mas')
+    print(f'    PLX_ERR inflated = {plx_err_inflated:.3f} mas')
+    plx_draws_inf = rng.normal(PLX, plx_err_inflated, N_DRAWS)
+    plx_draws_inf = np.clip(plx_draws_inf, 0.05, None)
+    m1_draws_inf = rng.lognormal(
+        mean=np.log(M1_BEST) - 0.5 * (M1_SIGMA / M1_BEST)**2,
+        sigma=M1_SIGMA / M1_BEST,
+        size=N_DRAWS
+    )
+    p_draws_inf = rng.normal(P_DAYS, P_ERR, N_DRAWS)
+    p_draws_inf = np.clip(p_draws_inf, 1.0, None)
+    model_sys_inf = rng.normal(0, 0.10, N_DRAWS)
+    m2_draws_inf = kepler_m2_vectorised(m1_draws_inf, p_draws_inf,
+                                         plx_draws_inf, M2_CATALOG,
+                                         model_sys_inf)
+    valid_inf = (m2_draws_inf > 0.1) & (m2_draws_inf < 500)
+    m2_draws_inf = m2_draws_inf[valid_inf]
+    med_inf = np.median(m2_draws_inf)
+    ci68_inf = np.percentile(m2_draws_inf, [16, 84])
+    ci90_inf = np.percentile(m2_draws_inf, [5, 95])
+    p_bh_inf = 100 * np.mean(m2_draws_inf > BH_THRESHOLD)
+    p_above10_inf = 100 * np.mean(m2_draws_inf > 10)
+    print(f'    M2 median (inflated)  = {med_inf:.1f} Msun')
+    print(f'    68% CI (inflated)     = [{ci68_inf[0]:.1f}, {ci68_inf[1]:.1f}] Msun')
+    print(f'    90% CI (inflated)     = [{ci90_inf[0]:.1f}, {ci90_inf[1]:.1f}] Msun')
+    print(f'    P(M2>5) (inflated)    = {p_bh_inf:.1f}%')
+    print(f'    P(M2>10) (inflated)   = {p_above10_inf:.1f}%')
+
+    # --- Parallax-only stress test ---
+    print(f'\n  Parallax-only stress test (M1 and P fixed):')
+    for delta_sigma in [-2, -1, 0, 1, 2]:
+        plx_test = PLX + delta_sigma * PLX_ERR
+        if plx_test <= 0:
+            continue
+        m2_t = kepler_m2_vectorised(
+            np.array([M1_BEST]), np.array([P_DAYS]),
+            np.array([plx_test]), M2_CATALOG, np.array([0.0]))
+        print(f'    plx={plx_test:.3f} ({delta_sigma:+d}sigma): M2={m2_t[0]:.1f} Msun')
+
     # Sensitivity: vary M1
     print(f'\n  Sensitivity to M1:')
     for m1_test in [0.5, 0.7, 0.9, 1.04, 1.2, 1.5, 2.0]:
         m2_t = kepler_m2_vectorised(
             np.array([m1_test]), np.array([P_DAYS]),
-            M2_CATALOG, np.array([0.0]))
+            np.array([PLX]), M2_CATALOG, np.array([0.0]))
         print(f'    M1={m1_test:5.2f}: M2={m2_t[0]:.1f} Msun')
 
     # ── Save results ─────────────────────────────────────────────
@@ -193,6 +251,18 @@ def main():
         'P_above_33Msun_percent': round(p_above_bh3, 1),
         'P_mass_gap_percent': round(p_mass_gap, 1),
         'semi_major_axis_AU': round(a_au, 2),
+        'parallax_inflation_factor': PLX_INFLATION,
+        'plx_err_inflated_mas': round(plx_err_inflated, 3),
+        'M2_median_inflated': round(med_inf, 1),
+        'M2_68ci_inflated': [round(ci68_inf[0], 1), round(ci68_inf[1], 1)],
+        'M2_90ci_inflated': [round(ci90_inf[0], 1), round(ci90_inf[1], 1)],
+        'P_above_5Msun_inflated': round(p_bh_inf, 1),
+        'P_above_10Msun_inflated': round(p_above10_inf, 1),
+        'note_posterior': ('This is an approximate stress test, not a '
+                           'formal posterior.  The full covariance matrix '
+                           'of the astrometric solution is not available '
+                           'in DR3.  Parallax-inflated scenario uses '
+                           f'factor {PLX_INFLATION} per DR3 validation.'),
     }
     outpath = os.path.join(basedir, '..', 'results',
                            'mass_posterior_results.json')
@@ -205,13 +275,15 @@ def main():
     os.makedirs(figdir, exist_ok=True)
     figpath = os.path.join(figdir, 'fig_mass_posterior.pdf')
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+    fig, axes = plt.subplots(1, 3, figsize=(16, 5))
 
     # Left: M2 sensitivity to M1
+    ax1 = axes[0]
     m1_grid = np.linspace(0.3, 3.0, 200)
     m2_grid = np.array([
         kepler_m2_vectorised(np.array([m1]), np.array([P_DAYS]),
-                              M2_CATALOG, np.array([0.0]))[0]
+                              np.array([PLX]), M2_CATALOG,
+                              np.array([0.0]))[0]
         for m1 in m1_grid
     ])
     ax1.plot(m1_grid, m2_grid, 'b-', lw=2)
@@ -225,31 +297,53 @@ def main():
     ax1.axvline(M1_BEST, color='blue', ls=':', alpha=0.5)
     ax1.set_xlabel(r'$M_1$ ($M_\odot$)', fontsize=12)
     ax1.set_ylabel(r'$M_2$ ($M_\odot$)', fontsize=12)
-    ax1.set_title(r'Companion mass vs $M_1$ (AstroSpectroSB1)')
-    ax1.legend(fontsize=8, loc='upper right')
+    ax1.set_title(r'Companion mass vs $M_1$')
+    ax1.legend(fontsize=7, loc='upper right')
     ax1.set_xlim(0.3, 3.0)
 
-    # Right: MC posterior histogram
-    bins = np.linspace(0, 40, 120)
-    ax2.hist(m2_draws[m2_draws < 40], bins=bins, density=True,
-             color='steelblue', alpha=0.7, edgecolor='navy', lw=0.3)
+    # Centre: nominal MC posterior
+    ax2 = axes[1]
+    bins = np.linspace(0, 50, 120)
+    ax2.hist(m2_draws[m2_draws < 50], bins=bins, density=True,
+             color='steelblue', alpha=0.7, edgecolor='navy', lw=0.3,
+             label='Nominal $\\sigma_\\varpi$')
+    ax2.hist(m2_draws_inf[m2_draws_inf < 50], bins=bins, density=True,
+             color='salmon', alpha=0.5, edgecolor='darkred', lw=0.3,
+             label=f'Inflated $\\sigma_\\varpi$ ($\\times${PLX_INFLATION})')
     ax2.axvline(BH_THRESHOLD, color='red', ls='--', lw=2,
                 label=f'BH floor (5 $M_\\odot$)')
     ax2.axvline(median, color='black', ls='-', lw=2,
-                label=f'Median = {median:.1f} $M_\\odot$')
-    ax2.axvspan(ci68[0], ci68[1], alpha=0.15, color='green',
-                label=f'68% CI [{ci68[0]:.1f}, {ci68[1]:.1f}]')
-    ax2.text(0.97, 0.95,
-             f'$P(M_2 > 5\\,M_\\odot) = {p_bh:.1f}\\%$\n'
-             f'$P(M_2 > 10\\,M_\\odot) = {p_above10:.1f}\\%$\n'
-             f'N = {n_valid:,}',
-             transform=ax2.transAxes, ha='right', va='top',
-             fontsize=9, bbox=dict(boxstyle='round,pad=0.3',
-                                    fc='lightyellow', alpha=0.8))
+                label=f'Median (nom.) = {median:.1f} $M_\\odot$')
     ax2.set_xlabel(r'$M_2$ ($M_\odot$)', fontsize=12)
     ax2.set_ylabel('Probability density', fontsize=12)
-    ax2.set_title('Monte Carlo mass posterior')
-    ax2.legend(fontsize=8, loc='upper left')
+    ax2.set_title('MC posterior (nominal vs inflated $\\sigma_\\varpi$)')
+    ax2.legend(fontsize=7, loc='upper right')
+    ax2.set_xlim(0, 50)
+
+    # Right: parallax stress test
+    ax3 = axes[2]
+    plx_test_grid = np.linspace(max(PLX - 3*PLX_ERR, 0.15),
+                                PLX + 3*PLX_ERR, 100)
+    m2_plx_grid = np.array([
+        kepler_m2_vectorised(np.array([M1_BEST]), np.array([P_DAYS]),
+                              np.array([plx_v]), M2_CATALOG,
+                              np.array([0.0]))[0]
+        for plx_v in plx_test_grid
+    ])
+    ax3.plot(plx_test_grid, m2_plx_grid, 'b-', lw=2)
+    ax3.axhline(BH_THRESHOLD, color='red', ls='--', lw=1.5,
+                label=r'BH floor (5 $M_\odot$)')
+    ax3.axvspan(PLX - PLX_ERR, PLX + PLX_ERR, alpha=0.15, color='blue',
+                label=f'$\\varpi \\pm 1\\sigma$ (nominal)')
+    plx_err_inf = PLX_ERR * PLX_INFLATION
+    ax3.axvspan(PLX - plx_err_inf, PLX + plx_err_inf, alpha=0.08,
+                color='red',
+                label=f'$\\varpi \\pm 1\\sigma$ (inflated $\\times${PLX_INFLATION})')
+    ax3.axvline(PLX, color='blue', ls=':', alpha=0.5)
+    ax3.set_xlabel(r'Parallax $\varpi$ (mas)', fontsize=12)
+    ax3.set_ylabel(r'$M_2$ ($M_\odot$)', fontsize=12)
+    ax3.set_title(r'$M_2$ sensitivity to parallax')
+    ax3.legend(fontsize=7, loc='upper right')
 
     fig.suptitle('Gaia DR3 5870569352746778624 \u2014 AstroSpectroSB1',
                  fontsize=13, fontweight='bold', y=1.01)

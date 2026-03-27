@@ -1,0 +1,110 @@
+{
+  "source_id": "5870569352746778624",
+  "teff_primary": 4832.0,
+  "R_primary_phot": 9.8,
+  "R_primary_logg": 4.0,
+  "M2_cat": 12.55,
+  "T_companion_MS": 25703.0,
+  "L_companion_MS": 7002.0,
+  "R_companion_MS": 4.23,
+  "planck_flux_ratios": {
+    "G_BP": 31.619,
+    "G": 15.165,
+    "G_RP": 7.964,
+    "J": 3.293,
+    "H": 2.324,
+    "K": 1.869,
+    "W1": 1.466,
+    "W2": 1.31
+  },
+  "atmosphere_flux_ratios_phot_R": {
+    "G_BP": 34.526,
+    "G": 16.154,
+    "G_RP": 8.216,
+    "J": 3.293,
+    "H": 2.324,
+    "K": 1.869,
+    "W1": 1.466,
+    "W2": 1.31
+  },
+  "atmosphere_flux_ratios_logg_R": {
+    "G_BP": 207.245,
+    "G": 96.964,
+    "G_RP": 49.314,
+    "J": 19.768,
+    "H": 13.949,
+    "K": 11.219,
+    "W1": 8.798,
+    "W2": 7.861
+  },
+  "atmosphere_corrections": {
+    "G_BP": 1.092,
+    "G": 1.0652,
+    "G_RP": 1.0316,
+    "J": 1.0,
+    "H": 1.0,
+    "K": 1.0,
+    "W1": 1.0,
+    "W2": 1.0
+  },
+  "stripped_He_scan": [
+    {
+      "mass": 2,
+      "L_Lsun": 1866.7,
+      "Teff_K": 37462.0,
+      "R_Rsun": 1.026,
+      "G_flux_ratio": 1.6237,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 3,
+      "L_Lsun": 3162.3,
+      "Teff_K": 39811.0,
+      "R_Rsun": 1.182,
+      "G_flux_ratio": 2.3382,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 5,
+      "L_Lsun": 6143.3,
+      "Teff_K": 42981.0,
+      "R_Rsun": 1.414,
+      "G_flux_ratio": 3.6951,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 7,
+      "L_Lsun": 9514.1,
+      "Teff_K": 45206.0,
+      "R_Rsun": 1.59,
+      "G_flux_ratio": 4.9898,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 10,
+      "L_Lsun": 15126.6,
+      "Teff_K": 47690.0,
+      "R_Rsun": 1.802,
+      "G_flux_ratio": 6.8551,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 12.55,
+      "L_Lsun": 20322.6,
+      "Teff_K": 49343.0,
+      "R_Rsun": 1.951,
+      "G_flux_ratio": 8.3882,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 15,
+      "L_Lsun": 25624.8,
+      "Teff_K": 50681.0,
+      "R_Rsun": 2.076,
+      "G_flux_ratio": 9.8263,
+      "verdict": "EXCLUDED"
+    }
+  ],
+  "min_ratio_atm": 1.31,
+  "verdict": "MS companion EXCLUDED; stripped He star EXCLUDED at M2_cat"
+}

@@ -1,0 +1,93 @@
+{
+  "source_id": "5870569352746778624",
+  "teff_colour_inversion": 6100,
+  "teff_gsp_phot": 4832.0,
+  "synthetic_flux_ratios": {
+    "G_BP": 32.678,
+    "G": 15.667,
+    "G_RP": 8.2,
+    "J": 3.359,
+    "H": 2.358,
+    "K": 1.89,
+    "W1": 1.476,
+    "W2": 1.316
+  },
+  "planck_flux_ratios": {
+    "G_BP": 31.619,
+    "G": 15.165,
+    "G_RP": 7.964,
+    "J": 3.293,
+    "H": 2.324,
+    "K": 1.869,
+    "W1": 1.466,
+    "W2": 1.31
+  },
+  "stripped_He_scan": [
+    {
+      "mass": 1,
+      "L": 758.1,
+      "T": 33762.0,
+      "R": 0.805,
+      "G_ratio": 0.8433,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 2,
+      "L": 1866.7,
+      "T": 37462.0,
+      "R": 1.026,
+      "G_ratio": 1.5791,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 3,
+      "L": 3162.3,
+      "T": 39811.0,
+      "R": 1.182,
+      "G_ratio": 2.2747,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 5,
+      "L": 6143.3,
+      "T": 42981.0,
+      "R": 1.414,
+      "G_ratio": 3.5962,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 7,
+      "L": 9514.1,
+      "T": 45206.0,
+      "R": 1.59,
+      "G_ratio": 4.8575,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 10,
+      "L": 15126.6,
+      "T": 47690.0,
+      "R": 1.802,
+      "G_ratio": 6.675,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 12.55,
+      "L": 20322.6,
+      "T": 49343.0,
+      "R": 1.951,
+      "G_ratio": 8.1691,
+      "verdict": "EXCLUDED"
+    },
+    {
+      "mass": 15,
+      "L": 25624.8,
+      "T": 50681.0,
+      "R": 2.076,
+      "G_ratio": 9.5707,
+      "verdict": "EXCLUDED"
+    }
+  ],
+  "max_hidden_MS_mass": 1.1,
+  "verdict": "MS and stripped-He companion EXCLUDED by synthetic photometry"
+}
